@@ -1,0 +1,15 @@
+- hosts: all
+  vars_files:
+    - secrets.yaml
+  tasks:
+    - name: Init a new swarm with default parameters
+      community.docker.docker_swarm:
+        state: present
+
+    - name: Run bot docker service
+      docker_swarm_service:
+        name: echo-bot-father
+        image: twobrowin/echo-bot-father:1.0.2
+        env:
+          TZ: "Europe/Moscow"
+          BOT_TOKEN: "{{ bot_token }}"
